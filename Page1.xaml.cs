@@ -1,16 +1,26 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using PractWork4_Soldatov_Dudchenko.BusinessLogic;
 
 namespace PractWork4_Soldatov_Dudchenko
 {
+    /// <summary>
+    /// Страница 1 - Вычисление функции a
+    /// </summary>
     public partial class Page1 : Page
     {
+        /// <summary>
+        /// Конструктор страницы
+        /// </summary>
         public Page1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Вычислить"
+        /// </summary>
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -35,47 +45,24 @@ namespace PractWork4_Soldatov_Dudchenko
                 double z = double.Parse(txtZ.Text.Replace(',', '.'), 
                                       System.Globalization.CultureInfo.InvariantCulture);
 
-                // Проверка ограничений
-                if (y <= 0)
-                {
-                    MessageBox.Show("Значение y должно быть больше 0!", 
-                                  "Ошибка значения", 
-                                  MessageBoxButton.OK, 
-                                  MessageBoxImage.Warning);
-                    return;
-                }
-
-                // Вычисление: a = ln(y^(-√|x|)) · (x - y/2) + sin²(arctg(z))
-                double sqrtAbsX = Math.Sqrt(Math.Abs(x));
-                double yPower = Math.Pow(y, -sqrtAbsX);
-                
-                if (yPower <= 0)
-                {
-                    MessageBox.Show("Промежуточное значение для логарифма получилось неположительным!", 
-                                  "Ошибка вычисления", 
-                                  MessageBoxButton.OK, 
-                                  MessageBoxImage.Warning);
-                    return;
-                }
-
-                double lnPart = Math.Log(yPower);
-                double term1 = lnPart * (x - y / 2.0);
-                double arctgZ = Math.Atan(z);
-                double sinSqr = Math.Pow(Math.Sin(arctgZ), 2);
-                
-                double result = term1 + sinSqr;
-
-                // Проверка на NaN и Infinity
-                if (double.IsNaN(result) || double.IsInfinity(result))
-                {
-                    MessageBox.Show("Результат вычисления некорректен!", 
-                                  "Ошибка вычисления", 
-                                  MessageBoxButton.OK, 
-                                  MessageBoxImage.Error);
-                    return;
-                }
+                // Вычисление через бизнес-логику
+                double result = MathFunctions.CalculateFunctionA(x, y, z);
 
                 txtResult.Text = result.ToString("F10");
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, 
+                              "Ошибка значения", 
+                              MessageBoxButton.OK, 
+                              MessageBoxImage.Warning);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, 
+                              "Ошибка вычисления", 
+                              MessageBoxButton.OK, 
+                              MessageBoxImage.Warning);
             }
             catch (FormatException)
             {
@@ -93,6 +80,9 @@ namespace PractWork4_Soldatov_Dudchenko
             }
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Очистить"
+        /// </summary>
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();

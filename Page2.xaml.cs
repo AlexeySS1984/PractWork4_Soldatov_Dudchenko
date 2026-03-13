@@ -1,36 +1,42 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using PractWork4_Soldatov_Dudchenko.BusinessLogic;
 
 namespace PractWork4_Soldatov_Dudchenko
 {
+    /// <summary>
+    /// Страница 2 - Вычисление кусочно-заданной функции e
+    /// </summary>
     public partial class Page2 : Page
     {
+        /// <summary>
+        /// Конструктор страницы
+        /// </summary>
         public Page2()
         {
             InitializeComponent();
         }
 
-        private double CalculateFx(double x)
+        /// <summary>
+        /// Определяет тип функции f(x) на основе выбранной радиокнопки
+        /// </summary>
+        /// <returns>Тип функции</returns>
+        private MathFunctions.FunctionType GetSelectedFunctionType()
         {
             if (rbSinh.IsChecked == true)
-            {
-                // sh(x) = (e^x - e^(-x))/2
-                return Math.Sinh(x);
-            }
+                return MathFunctions.FunctionType.HyperbolicSine;
             else if (rbSquare.IsChecked == true)
-            {
-                // x²
-                return x * x;
-            }
+                return MathFunctions.FunctionType.Square;
             else if (rbExp.IsChecked == true)
-            {
-                // e^x
-                return Math.Exp(x);
-            }
-            return 0;
+                return MathFunctions.FunctionType.Exponential;
+            else
+                return MathFunctions.FunctionType.HyperbolicSine; // По умолчанию
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Вычислить"
+        /// </summary>
         private void Calculate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -51,54 +57,20 @@ namespace PractWork4_Soldatov_Dudchenko
                                       System.Globalization.CultureInfo.InvariantCulture);
                 int i = int.Parse(txtI.Text);
 
-                // Вычисление f(x)
-                double fx = CalculateFx(x);
+                // Получаем выбранный тип функции
+                var functionType = GetSelectedFunctionType();
 
-                double result = 0;
-
-                // Определяем, является ли i чётным или нечётным
-                bool isOdd = (i % 2 != 0);
-
-                // Вычисление по условиям:
-                // i√f(x), если i - нечётное, x > 0
-                // i/2·√|f(x)|, если i - чётное, x < 0
-                // √|if(x)|, иначе
-
-                if (isOdd && x > 0)
-                {
-                    // i√f(x)
-                    if (fx < 0)
-                    {
-                        MessageBox.Show("f(x) < 0 при условии 'i нечётное и x > 0'. Невозможно извлечь корень!", 
-                                      "Ошибка вычисления", 
-                                      MessageBoxButton.OK, 
-                                      MessageBoxImage.Warning);
-                        return;
-                    }
-                    result = i * Math.Sqrt(fx);
-                }
-                else if (!isOdd && x < 0)
-                {
-                    // i/2·√|f(x)|
-                    result = (i / 2.0) * Math.Sqrt(Math.Abs(fx));
-                }
-                else
-                {
-                    // √|if(x)|
-                    result = Math.Sqrt(Math.Abs(i * fx));
-                }
-
-                // Проверка на NaN и Infinity
-                if (double.IsNaN(result) || double.IsInfinity(result))
-                {
-                    MessageBox.Show("Результат вычисления некорректен!", 
-                                  "Ошибка вычисления", 
-                                  MessageBoxButton.OK, 
-                                  MessageBoxImage.Error);
-                    return;
-                }
+                // Вычисление через бизнес-логику
+                double result = MathFunctions.CalculateFunctionE(x, i, functionType);
 
                 txtResult.Text = result.ToString("F10");
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, 
+                              "Ошибка вычисления", 
+                              MessageBoxButton.OK, 
+                              MessageBoxImage.Warning);
             }
             catch (FormatException)
             {
@@ -116,6 +88,9 @@ namespace PractWork4_Soldatov_Dudchenko
             }
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Очистить"
+        /// </summary>
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
