@@ -19,13 +19,13 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -33,7 +33,7 @@
                 <Border Grid.Row="0" Background="#FFF8F9FA" 
                         CornerRadius="5" Padding="15" 
                         BorderBrush="#FFE0E0E0" BorderThickness="1">
-                    <Image Source="formula2.png" Stretch="Uniform" Height="160"
+                    <Image Source="formula2.png" Stretch="Uniform" Height="120"
                            ToolTip="Кусочно-заданная функция e"/>
                 </Border>
 
@@ -95,7 +95,7 @@
 
                 <!-- Кнопки -->
                 <StackPanel Grid.Row="5" Orientation="Horizontal" 
-                            HorizontalAlignment="Center" Margin="0,30,0,0">
+                            HorizontalAlignment="Center" Margin="0,15,0,0">
                     <Button Content="Вычислить" Width="150" Height="45" 
                             FontSize="16" Click="Calculate_Click"
                             Background="#FF3498DB" Foreground="White"

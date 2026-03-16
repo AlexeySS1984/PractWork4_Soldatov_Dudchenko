@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# IMPORTANT: Do NOT ignore screenshots folder!
+!screenshots/
+!screenshots/*.png
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

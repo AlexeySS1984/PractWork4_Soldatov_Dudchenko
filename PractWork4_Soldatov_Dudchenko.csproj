@@ -11,19 +11,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <None Remove="formula1.png" />
+    <None Remove="formula2.png" />
+    <None Remove="formula3.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="formula1.png">
+    <Content Include="formula1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="formula2.png">
+    </Content>
+    <Content Include="formula2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="formula3.png">
+    </Content>
+    <Content Include="formula3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
   </ItemGroup>
 
 </Project>
