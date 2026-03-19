@@ -215,9 +215,15 @@ namespace PractWork4_Soldatov_Dudchenko.BusinessLogic
 
             var result = new FunctionYResult();
 
-            // Вычисление функции в цикле
-            for (double x = x0; x <= xk; x += dx)
+            // Используем целочисленный счётчик для избежания ошибок округления
+            int steps = (int)Math.Round((xk - x0) / dx) + 1;
+            
+            for (int i = 0; i < steps; i++)
             {
+                double x = x0 + i * dx;
+                // Округляем для корректности
+                x = Math.Round(x, 10);
+                
                 double y = CalculateFunctionY(x, b);
                 result.XValues.Add(x);
                 result.YValues.Add(y);

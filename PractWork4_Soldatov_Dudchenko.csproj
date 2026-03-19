@@ -17,10 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="formula1.png">
+    <Content Include="formula2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="formula2.png">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="formula1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="formula3.png">
